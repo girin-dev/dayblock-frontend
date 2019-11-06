@@ -1,9 +1,14 @@
 import React from 'react';
+import { Block } from '../organisms';
+import "../../resources/sass/home/Home.scss";
 
 const Home = () => {
     return (
         <div>
-          router test  
+          <h1>My Block</h1>
+          <Block/>
+          <h1>Team Block</h1>
+          <Block/>
         </div>
     );
 };
