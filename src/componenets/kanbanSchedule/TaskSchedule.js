@@ -21,12 +21,21 @@ const TaskSchedule = ({data, timePosition, onDragStart}) => {
 			className={`task ${data.type}`}
 			style={grid}
 		>
-			<div className="top" onDragStart={onDragStart} draggable="true" data-id={data.id} data-role="top"></div>
-				<header className="task-header">{data.startTime}</header>
-				<div className="task-body">{data.taskNote}</div>
-			<div className="bottom" onDragStart={onDragStart} draggable="true" data-id={data.id} data-role="bottom"></div>
+			<div className="top" draggable="true" data-role="top"
+				onDragStart={onDragStart}
+				// onDragStart에 인자로 taskTop과 taskBottom을 넣어서 보내면 되지 않을까?
+				data-id={data.id}
+			></div>
+
+			<header className="task-header">{data.startTime}</header>
+			<div className="task-body">{data.taskNote}</div>
+
+			<div className="bottom" draggable="true" data-role="bottom"
+				onDragStart={onDragStart}
+				data-id={data.id}
+			></div>
 		</div>
 	);
 };
 
-export default TaskSchedule;
+export default React.memo(TaskSchedule);

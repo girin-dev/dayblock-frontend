@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import './Schedule.css';
 import TaskSchedule from './TaskSchedule';
-import axios from 'axios';
+// import axios from 'axios';
 
 const initialData = [
   {id:1, taskNote:'taskNote 해야함!', type:'urgency', startTime:'08:00', endTime:'12:00'},
@@ -43,7 +43,9 @@ const Schedule = () => {
       }
       else{
         return (
-          <div key={index} className={`schedule-time ${index === 1 ? "first" : "" } ${(index === timePosition.length -1) ? "last" : ""}`}>
+          <div key={index} className={`
+            schedule-time ${index === 1 ? "first" : "" } ${(index === timePosition.length -1) ? "last" : ""}
+          `}>
             {time}
             <div id="droptarget" className="timeline" data-grid={index} onDrop={(e=>onDropTask(e))} onDragOver={(e => onDragOver(e))}></div>
           </div>
@@ -52,53 +54,58 @@ const Schedule = () => {
     })
     return times;
   }
-  const onDropTask = e =>{
+  
+  const onDropTask = useCallback(e =>{
     console.log('e',e)
-  }
+  },[])
   const onChangeTaskTime = e =>{
     // api 통신
-    const taskId = parseInt(startId);
-    const data = tasks.filter(task=>task.id===taskId)
-    const URL = "http://dev.ryulth.com:14141";
-    const API = `/api/block/update/time`;
-    const payLoad ={
-      "endTime": data.endTime,
-      "id": data.id,
-      "startTime": data.startTime
-      }
-    axios({
-      url: URL+API,
-      method: 'PUT',
-      headers: { 'Authorization': '123' },
-      data: payLoad
-    });
+    // const taskId = parseInt(startId);
+    // const data = tasks.filter(task=>task.id===taskId)
+    // const URL = "http://dev.ryulth.com:14141";
+    // const API = `/api/block/update/time`;
+    // const payLoad ={
+    //   "endTime": data.endTime,
+    //   "id": data.id,
+    //   "startTime": data.startTime
+    //   }
+    // axios({
+    //   url: URL+API,
+    //   method: 'PUT',
+    //   headers: { 'Authorization': '123' },
+    //   data: payLoad
+    // });
   }
-  const onDragOver = e =>{
+
+  const onDragOver = useCallback(e =>{
     e.preventDefault();
+    console.log('eee',e)
     let targetPoint = parseInt(e.target.dataset.grid);
     // data 수정 로직
     if(updatePoint === "top"){
-      setTasks(tasks.map(task =>(task.id === parseInt(startId)) ? {...task, startTime:timePosition[targetPoint]} : task))
+      setTasks(tasks.map(task => (task.id === parseInt(startId)) ? {...task, startTime:timePosition[targetPoint]} : task))
     } else {
-      setTasks(tasks.map(task =>(task.id === parseInt(startId)) ? {...task, endTime:timePosition[targetPoint]} : task))
+      setTasks(tasks.map(task => (task.id === parseInt(startId)) ? {...task, endTime:timePosition[targetPoint]} : task))
     }
-  }
-  const onDragStart=e=>{
+  },[startId, tasks, timePosition, updatePoint])
+
+  const onDragStart = useCallback((e,taskTop,taskBottom)=>{
     setStartId(e.target.dataset.id);
     setUpdatePoint(e.target.dataset.role);
-  }
-    return (
-        <section className="schedule-container">
-          <div className="schedule-back">
-            {dateTable()}
-          </div>
-          <div className="schedule-back" onDrop={(e=>onChangeTaskTime(e))} onDragOver={(e=>e.preventDefault())}>
-          {tasks.map(data => (
-            <TaskSchedule data={data} timePosition={timePosition} key={data.id} onDragStart={onDragStart}/>
-          ))}
-          </div>
-        </section>
-    );
+  },[]);
+
+  return (
+      <section className="schedule-container">
+        <div className="schedule-back">
+          {dateTable()}
+        </div>
+        <div className="schedule-back" onDrop={(e=>onChangeTaskTime(e))} onDragOver={(e=>e.preventDefault())}>
+        {tasks.map(data => (
+          <TaskSchedule data={data} timePosition={timePosition} key={data.id} onDragStart={onDragStart}/>
+        ))}
+        </div>
+      </section>
+  );
 };
 
-export default Schedule;
+export default React.memo(Schedule);
