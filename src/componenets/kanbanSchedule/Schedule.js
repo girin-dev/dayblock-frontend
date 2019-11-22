@@ -31,13 +31,8 @@ const Schedule = () => {
           borderTopRightRadius:'8px',
           boxShadow: '0 0 10px 0 #d2d7e0',
         }
-        const today = new Date();
-        const year  = today.getFullYear(); 
-        const month  = today.getMonth() + 1; 
-        const day  = `${today.getDate()}`.padStart(2, '0'); 
         return (
-          <div key={index} style={style} className="schedule-date">
-              {`${year}-${month}-${day}`}
+          <div style={style} className="schedule-date">
           </div>
         )
       }
