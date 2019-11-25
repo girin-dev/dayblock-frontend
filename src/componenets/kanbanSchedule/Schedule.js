@@ -19,24 +19,7 @@ const Schedule = () => {
 
   const dateTable = () =>{
     let times = timePosition.map((time,index)=>{
-      if(!time){
-        const style = {
-          textAlign: "center",
-          position:"absolute",
-          top:"-30px",
-          background:'#fff',
-          padding:'10px',
-          width:'280px',
-          borderTopLeftRadius:'8px',
-          borderTopRightRadius:'8px',
-          boxShadow: '0 0 10px 0 #d2d7e0',
-        }
-        return (
-          <div style={style} className="schedule-date">
-          </div>
-        )
-      }
-      else{
+      if(!!time){
         return (
           <div key={index} className={`
             schedule-time ${index === 1 ? "first" : "" } ${(index === timePosition.length -1) ? "last" : ""}
@@ -50,26 +33,13 @@ const Schedule = () => {
     return times;
   }
   
-  const onDropTask = useCallback(e =>{
-    console.log('e',e)
+  const onDropTask = useCallback(e=>{
+    // Task Drop 이벤트
+    console.log('Task Drop 이벤트, e',e)
   },[])
-  const onChangeTaskTime = e =>{
-    // api 통신
-    // const taskId = parseInt(startId);
-    // const data = tasks.filter(task=>task.id===taskId)
-    // const URL = "http://dev.ryulth.com:14141";
-    // const API = `/api/block/update/time`;
-    // const payLoad ={
-    //   "endTime": data.endTime,
-    //   "id": data.id,
-    //   "startTime": data.startTime
-    //   }
-    // axios({
-    //   url: URL+API,
-    //   method: 'PUT',
-    //   headers: { 'Authorization': '123' },
-    //   data: payLoad
-    // });
+  const onChangeTaskTime =e=>{
+    // TaskTime 변경 이벤트
+    console.log('TaskTime 변경 이벤트, e',e)
   }
 
   const onDragOver = useCallback(e =>{
