@@ -23,18 +23,15 @@ const Datetime=()=>{
   }
 
   return (
-    // <div key={index} style={style} className="schedule-date">
     <div className="date">
       <button className="btn btn-date" data-type="prev"
         onClick={onChangeDate}
       >&#60;</button>
-      {/* <span className="date-selected">{`${year}-${month}-${day}`}</span> */}
       <span className="date-selected">{`${year}-${month}-${day}`}</span>
       <button className="btn btn-date" data-type="next"
         onClick={onChangeDate}
       >&#62;</button>
     </div>
-    // </div>
   )
 }
 export default Datetime;
