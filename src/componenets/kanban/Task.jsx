@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -79,6 +79,7 @@ const FileIcon = styled.img.attrs({
 `;
 
 const Task = (props) => {
+  const [isClickDDB, setIsClickDDB] = useState(false);
   return (
     <Draggable draggableId={props.task.task_id} index={props.index}>
       {(provided, snapshot) => (
@@ -90,7 +91,9 @@ const Task = (props) => {
         >
           <TaskHeader>
             <TaskTitle>{props.task.title}</TaskTitle>
-            <TaskDropDownButton/>
+            <TaskDropDownButton
+              onClick={_=>setIsClickDDB(!isClickDDB)}
+            />
           </TaskHeader>
           <TaskContent>
             {props.task.note}
