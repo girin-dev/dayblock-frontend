@@ -49,6 +49,33 @@ const TaskDropDownButton = styled.img.attrs({
   margin-top: 4px;
 `;
 
+const TaskMenu = styled.ul`
+  width:85px;
+  height:60px;
+  position: absolute;
+  right:0;
+  bottom:-60px;
+  background:#fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+`;
+
+const TaskMenuButton = styled.li`
+  line-height:32px;
+  display:block;
+  width:100%;
+  height:50%;
+  background:transparent;
+  text-align:center;
+  margin:0;
+  border:0;
+  border-bottom:1px solid #e2e2e2;
+  cursor:pointer;
+  &:last-child{
+    border-bottom:0;
+  }
+`;
+
 const TaskContent = styled.div`
   font-size: 13px;
   word-break:break-all;
@@ -94,6 +121,19 @@ const Task = (props) => {
             <TaskDropDownButton
               onClick={_=>setIsClickDDB(!isClickDDB)}
             />
+            {isClickDDB &&
+              <TaskMenu>
+                <TaskMenuButton
+                  onClick={_=>{
+                    console.log('props.task_id',props.task.task_id)
+                    props.deleteTask(props.task.task_id)
+                  }}
+                >Delete</TaskMenuButton>
+                <TaskMenuButton
+                  // onClick={props.modifyTask}
+                >Modify</TaskMenuButton>
+              </TaskMenu>
+            }
           </TaskHeader>
           <TaskContent>
             {props.task.note}

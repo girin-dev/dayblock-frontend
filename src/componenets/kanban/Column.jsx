@@ -110,9 +110,12 @@ const Column = (props) => {
             {...provided.droppableProps}
             isDraggingOver = {snapshot.isDraggingOver}
           >
-            {props.tasks.map((task,index) => (
-              <Task key={task.task_id} task={task} index={index}/>
-            ))}
+            {props.tasks.map((task,index) => {
+              console.log(task, !!task)
+              if(!!task){
+                return (<Task key={task.task_id} task={task} index={index} deleteTask={props.deleteTask}/>)
+              }
+            })}
             {provided.placeholder}
           </TaskList>
         )}
