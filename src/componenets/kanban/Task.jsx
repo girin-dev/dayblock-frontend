@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-
+import TaskUpdate from './TaskUpdate';
 import {dropdown_icon, comment_icon, file_icon} from '../../resources/icons'
+import ModalPortal from '../ModalPortal';
+import TaskUpdateModal from './TaskUpdateModal';
 
 // background-color: ${props => (props.isDragging ? 'rgba(124,123,181,0.2)' : 'white')};
 const Container = styled.div`
@@ -76,6 +78,13 @@ const TaskMenuButton = styled.li`
   }
 `;
 
+const TaskUpdateContainer = styled.div`
+  border:1px solid #000;
+  width:100px;
+  height:100px;
+  background:#fff;
+`;
+
 const TaskContent = styled.div`
   font-size: 13px;
   word-break:break-all;
@@ -107,6 +116,15 @@ const FileIcon = styled.img.attrs({
 
 const Task = (props) => {
   const [isClickDDB, setIsClickDDB] = useState(false);
+  const [isClickUpdate, setIsClickUpdate] = useState(false);
+
+  const closeModal=_=>{
+    console.log('closeModal');
+    setIsClickUpdate(!isClickUpdate);
+  }
+  const onSubmit=_=>{
+    console.log('submit')
+  }
   return (
     <Draggable draggableId={props.task.task_id} index={props.index}>
       {(provided, snapshot) => (
@@ -130,9 +148,18 @@ const Task = (props) => {
                   }}
                 >Delete</TaskMenuButton>
                 <TaskMenuButton
-                  // onClick={props.modifyTask}
+                  onClick={_=>{
+                    setIsClickUpdate(props.task.task_id);
+                    setIsClickDDB(!isClickDDB);
+                  }}
                 >Modify</TaskMenuButton>
               </TaskMenu>
+            }
+            {isClickUpdate &&
+              <ModalPortal props={props} closeModal={closeModal} onSubmit={onSubmit}>
+                <TaskUpdateModal props={props} component={TaskUpdate} closeModal={closeModal} onSubmit={onSubmit}>
+                </TaskUpdateModal>
+              </ModalPortal>
             }
           </TaskHeader>
           <TaskContent>
