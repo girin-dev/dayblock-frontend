@@ -21,17 +21,25 @@ const ModalWindow = styled.section`
   background-color: #ffffff;
 `;
 
-const TaskUpdate = (props) => {
-  console.log(props);
+const TaskUpdateModal = (props) => {
+  console.log('TaskUpdateModal',props);
   return (
     <ModalBlock>
       <ModalWindow>
-        <props.component props={props} id={props.props.task.task_id} title={props.props.task.title} note={props.props.task.note}
-          closeModal={props.closeModal} onSubmit={props.onSubmit}
-        />
+        { (props.props.index===undefined)
+          ? (<props.component props={props}
+              // id={props.props.task.task_id} title={props.props.task.title} note={props.props.task.note}
+              columnId={props.props.column.column_id}
+              closeModal={props.closeModal} onSubmit={props.onSubmit}
+            />)
+          : (<props.component props={props}
+              id={props.props.task.task_id} title={props.props.task.title} note={props.props.task.note}
+              closeModal={props.closeModal} onSubmit={props.onSubmit}
+            />)
+        }
       </ModalWindow>
     </ModalBlock>
   );
 }
 
-export default TaskUpdate;
+export default TaskUpdateModal;

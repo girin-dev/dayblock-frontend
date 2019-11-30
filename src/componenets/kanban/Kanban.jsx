@@ -93,12 +93,26 @@ const Kanban = () => {
     newTasks[id]=null
     setBlockData({...blockData, tasks: newTasks})
   }
-  const updateTask = (id,taskTitle,taskNote) =>{
+  const updateTask = (id,taskTitle,taskNote) => {
     const blockDataCopied = {...blockData};
     blockDataCopied.tasks[id].title = taskTitle;
     blockDataCopied.tasks[id].note = taskNote;
     console.log(blockDataCopied);
     setBlockData(blockDataCopied);
+  }
+  const addTask = (columnsId,taskTitle,taskNote) => {
+    console.log(columnsId,taskTitle,taskNote)
+    let taskCnt = 0;
+    for(let prop in blockData.tasks){
+      taskCnt++;
+    }
+    const blockDataCopied = {...blockData};
+    const newTaskId = `task${taskCnt+1}`
+    const newTask = {task_id:newTaskId, title:taskTitle, note:taskNote}
+    blockDataCopied.tasks[newTaskId] = newTask;
+    blockDataCopied.columns[columnsId].taskIds.push(newTaskId)
+    setBlockData(blockDataCopied);
+    console.log('addTask');
   }
 
   return (
@@ -111,7 +125,7 @@ const Kanban = () => {
           const column = blockData.columns[columnId];
           const tasks = column.taskIds.map(taskId => blockData.tasks[taskId]);
 
-          return <Column key={column.column_id} column={column} tasks={tasks} deleteTask={deleteTask} updateTask={updateTask} />
+          return <Column key={column.column_id} column={column} tasks={tasks} deleteTask={deleteTask} updateTask={updateTask} addTask={addTask} />
         })}
       </Container>
     </DragDropContext>

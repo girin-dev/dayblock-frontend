@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import {Droppable} from 'react-beautiful-dnd';
 
 import {todo_icon, urgent_icon, complete_icon, add_button} from '../../resources/icons'
 import Task from './Task.jsx'
+import ModalPortal from '../ModalPortal';
+import TaskUpdateModal from './TaskUpdateModal';
+import TaskAdd from './TaskAdd';
 
 const Container = styled.div`
   width: 280px;
@@ -83,6 +86,12 @@ const AddButton = styled.img.attrs({
 
 
 const Column = (props) => {
+  const [isClickAdd, setIsClickAdd] = useState(false);
+  const closeModal=_=>{
+    console.log('closeModal');
+    setIsClickAdd(!isClickAdd);
+  }
+
   const getColumnIconSource = (columnTitle) => {
     if(columnTitle === 'To Do') {
       return todo_icon;
@@ -120,12 +129,25 @@ const Column = (props) => {
         )}
       </Droppable>
 
-      <AddTaskButtonArea>
+      <AddTaskButtonArea onClick={_=>setIsClickAdd(!isClickAdd)}>
         <AddClickArea>
           <AddTaskText>Add Task</AddTaskText>
           <AddButton/>
         </AddClickArea>
       </AddTaskButtonArea>
+      {isClickAdd &&
+        <ModalPortal props={props} closeModal={closeModal} onSubmit={props.addTask}>
+          <TaskUpdateModal props={props} component={TaskAdd} closeModal={closeModal}
+            onSubmit={
+              (columnId,taskTitle,taskNote)=>{
+              props.addTask(columnId,taskTitle,taskNote);
+              closeModal();
+            }
+          }
+          >
+          </TaskUpdateModal>
+        </ModalPortal>
+      }
     </Container>
   )
 };
