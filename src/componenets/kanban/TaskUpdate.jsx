@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const UpdateContainer = styled.div`
@@ -35,20 +35,26 @@ const ButtonUpdate = styled.button`
 `;
 
 const TaskUpdate = ({id, title, note, closeModal, onSubmit}) => {
-  console.log(closeModal)
+  const [taskTitle,setTaskTitle] = useState(title)
+  const [taskNote,setTaskNote] = useState(note)
+  const changeTask = e =>setTaskTitle(e.target.value);
+  const changeNote = e =>setTaskNote(e.target.value);
+  const taskInput = useRef();
+  useEffect(() => {
+    taskInput.current.focus();
+  }, []);
+
   return (
     <UpdateContainer>
       <UpdateLabel>Task</UpdateLabel>
-      {/* value 수정요 */}
-      <UpdateInput value={title}/>
+      <UpdateInput value={taskTitle} onChange={changeTask} ref={taskInput}/>
       <UpdateLabel>Note</UpdateLabel>
-      {/* value 수정요 */}
-      <UpdateInput value={note}/>
+      <UpdateInput value={taskNote} onChange={changeNote}/>
       <ButtonUpdate color="#000" backgroundColor="#fff" border="solid 1px #979797" left
         onClick={closeModal}
       >Close</ButtonUpdate>
       <ButtonUpdate color="#fff" backgroundColor="#000" border="solid 1px #000" right
-        onClick={onSubmit}
+        onClick={_=>onSubmit(id,taskTitle,taskNote)}
       >Complete</ButtonUpdate>
     </UpdateContainer>
   );

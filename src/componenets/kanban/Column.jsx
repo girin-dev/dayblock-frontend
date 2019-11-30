@@ -112,7 +112,7 @@ const Column = (props) => {
           >
             {props.tasks.map((task,index) => {
               if(!!task){
-                return (<Task key={task.task_id} task={task} index={index} deleteTask={props.deleteTask}/>)
+                return (<Task key={task.task_id} task={task} index={index} deleteTask={props.deleteTask} onSubmit={props.updateTask}/>)
               }
             })}
             {provided.placeholder}

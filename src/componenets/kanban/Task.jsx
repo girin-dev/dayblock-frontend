@@ -122,9 +122,6 @@ const Task = (props) => {
     console.log('closeModal');
     setIsClickUpdate(!isClickUpdate);
   }
-  const onSubmit=_=>{
-    console.log('submit')
-  }
   return (
     <Draggable draggableId={props.task.task_id} index={props.index}>
       {(provided, snapshot) => (
@@ -156,8 +153,12 @@ const Task = (props) => {
               </TaskMenu>
             }
             {isClickUpdate &&
-              <ModalPortal props={props} closeModal={closeModal} onSubmit={onSubmit}>
-                <TaskUpdateModal props={props} component={TaskUpdate} closeModal={closeModal} onSubmit={onSubmit}>
+              <ModalPortal props={props} closeModal={closeModal} onSubmit={props.onSubmit}>
+                <TaskUpdateModal props={props} component={TaskUpdate} closeModal={closeModal} onSubmit={(id,taskTitle,taskNote)=>{
+                  props.onSubmit(id,taskTitle,taskNote);
+                  closeModal();
+                  }
+                }>
                 </TaskUpdateModal>
               </ModalPortal>
             }

@@ -93,6 +93,14 @@ const Kanban = () => {
     newTasks[id]=null
     setBlockData({...blockData, tasks: newTasks})
   }
+  const updateTask = (id,taskTitle,taskNote) =>{
+    const blockDataCopied = {...blockData};
+    blockDataCopied.tasks[id].title = taskTitle;
+    blockDataCopied.tasks[id].note = taskNote;
+    console.log(blockDataCopied);
+    setBlockData(blockDataCopied);
+  }
+
   return (
     <DragDropContext
       onDragEnd = {onDragEnd}
@@ -103,7 +111,7 @@ const Kanban = () => {
           const column = blockData.columns[columnId];
           const tasks = column.taskIds.map(taskId => blockData.tasks[taskId]);
 
-          return <Column key={column.column_id} column={column} tasks={tasks} deleteTask={deleteTask} />
+          return <Column key={column.column_id} column={column} tasks={tasks} deleteTask={deleteTask} updateTask={updateTask} />
         })}
       </Container>
     </DragDropContext>
