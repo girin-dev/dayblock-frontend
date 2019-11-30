@@ -13,7 +13,7 @@ const Container = styled.div`
 const Kanban = () => {
   const [blockData, setBlockData] = useState(initialData);
 
-  React.useEffect(() => console.log('blockData',blockData));
+  // React.useEffect(() => console.log('blockData',blockData));
 
   const onDragEnd = useCallback((result) => {
     console.log('onDragEnd 시작할 때 blockData',blockData);
