@@ -2,7 +2,7 @@
 .main{background: #F0F1F6;float:left;width:calc(100% - 80px);padding:40px;display:grid;
   grid-template-rows: repeat(2, 1fr);
   /* grid-template-columns: repeat(2, 1fr); */
-  grid-template-columns: 25% 75%;
+  grid-template-columns: minmax(210px,20%) 70%;
   grid-template-areas:
   "date-selector block-selector"
   "schedule kanban"
@@ -22,12 +22,13 @@
 /* 반응형을 위한 준비 */
 @media (max-width: 700px) {
   .main{
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     /* grid-template-columns: repeat(2, 1fr); */
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-areas:
       "header"
       "schedule"
+      "block-selector"
       "kanban"
   }
 }
