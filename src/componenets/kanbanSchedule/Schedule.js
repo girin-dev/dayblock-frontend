@@ -61,7 +61,17 @@ const Schedule = () => {
         }
       }))
     } else {
-      setTasks(tasks.map(task => (task.id === parseInt(startId)) ? {...task, endTime:timePosition[targetPoint]} : task))
+      setTasks(tasks.map(task => {
+        if(task.id === parseInt(startId)) {
+          const startPoint = timePosition.indexOf(task.startTime)
+          if(targetPoint <= startPoint){
+            targetPoint = startPoint+1;
+          }
+          return {...task, endTime:timePosition[targetPoint]}
+        } else {
+          return task
+        }
+      }))
     }
   },[startId, tasks, timePosition, updatePoint])
 
