@@ -37,7 +37,8 @@ const Schedule = () => {
     // Task Drop 이벤트
     console.log('Task Drop 이벤트, e',e)
   },[])
-  const onChangeTaskTime =e=>{
+
+  const onChangeTaskTime=e=>{
     // TaskTime 변경 이벤트
     console.log('TaskTime 변경 이벤트, e',e)
   }
@@ -48,7 +49,17 @@ const Schedule = () => {
     let targetPoint = parseInt(e.target.dataset.grid);
     // data 수정 로직
     if(updatePoint === "top"){
-      setTasks(tasks.map(task => (task.id === parseInt(startId)) ? {...task, startTime:timePosition[targetPoint]} : task))
+      setTasks(tasks.map(task => {
+        if(task.id === parseInt(startId)) {
+          const endPoint = timePosition.indexOf(task.endTime)
+          if(targetPoint >= endPoint){
+            targetPoint = endPoint-1;
+          }
+          return {...task, startTime:timePosition[targetPoint]}
+        } else {
+          return task
+        }
+      }))
     } else {
       setTasks(tasks.map(task => (task.id === parseInt(startId)) ? {...task, endTime:timePosition[targetPoint]} : task))
     }
